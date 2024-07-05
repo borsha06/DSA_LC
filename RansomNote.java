@@ -28,18 +28,20 @@ class Solution {
             }
 
         }
-     
+
         Set<String> keys = ransomNoteMap.keySet();
         int c = 0;
         for (String i : keys) {
-            if (ransomNoteMap.containsKey(i) && magazineMap.containsKey(i) && magazineMap.get(i) >= ransomNoteMap.get(i)) {
-               c++;
-            } 
-            else{ c= 0;}
+            if (ransomNoteMap.containsKey(i) && magazineMap.containsKey(i)
+                    && magazineMap.get(i) >= ransomNoteMap.get(i)) {
+                c++;
+            } else {
+                c = 0;
+            }
         }
-        if(c == keys.size()){
+        if (c == keys.size()) {
             return true;
-        }
-        else return false;
+        } else
+            return false;
     }
 }
