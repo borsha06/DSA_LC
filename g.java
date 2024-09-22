@@ -25,6 +25,22 @@ public class HelloWorld {
             }
         }
     }
+    void BFS(int start){
+        Queue<Integer> queue = new LinkedList<>();
+        boolean[] visited = new boolean[nodes];
+        queue.add(start);
+        visited[start] = true;
+        while(!queue.isEmpty()){
+            int y = queue.poll();
+            for(int j = 0; j < graph.get(y).size(); j++){
+                if(visited[graph.get(y).get(j)] == false)
+                 queue.add(graph.get(y).get(j));
+                 visited[graph.get(y).get(j)] =true;
+            }
+            System.out.println(y);
+        }
+        printGraph();
+    }
 
     public static void main(String []args) {
         System.out.println("Hello, World!");
@@ -33,6 +49,6 @@ public class HelloWorld {
         g.addEdge(1,2);
         g.addEdge(0,3);
         g.addEdge(0,4);
-        g.printGraph();
+        g.BFS(0);
     }
 }
