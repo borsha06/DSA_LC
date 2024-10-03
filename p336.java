@@ -3,17 +3,20 @@ import java.util.*;
 
 public class HelloWorld {
     Map<Integer, List<Integer>> graph;
+    Map<Integer, Integer> levels;
 
     public HelloWorld() {
-    
+
         graph = new HashMap<>();
+        levels = new HashMap<>();
     }
 
     void addEdge(int u, int v) {
-       graph.computeIfAbsent(u, x -> new ArrayList<>()).add(v);
+        graph.computeIfAbsent(u, x -> new ArrayList<>()).add(v);
         graph.computeIfAbsent(v, x -> new ArrayList<>()).add(u);
     }
     void printGraph() {
+
         for (int vertex : graph.keySet()) {
             System.out.print(vertex + " -> ");
             for (int neighbor : graph.get(vertex)) {
@@ -22,38 +25,48 @@ public class HelloWorld {
             System.out.println();
         }
     }
-    void BFS(int start){
-         printGraph();
+    void BFS(int start, int ttl) {
+        // printGraph();
         Queue<Integer> queue = new LinkedList<>();
+        Integer c = 0;
         boolean[] visited = new boolean[1000];
         queue.add(start);
+        levels.put(start, c);
         visited[start] = true;
-        while(!queue.isEmpty()){
+        while(!queue.isEmpty()) {
             int y = queue.poll();
-            System.out.println(graph.get(y));
-             for (int j = 0; j < graph.get(y).size(); j++) {
-            int neighbor = graph.get(y).get(j); // Get the neighbor vertex
-            if (!visited[neighbor]) { // Check if the neighbor has not been visited
-                visited[neighbor] = true; // Mark it as visited
-                queue.add(neighbor); // Add it to the queue
+            c = levels.get(y) + 1;
+            for (int j = 0; j < graph.get(y).size(); j++) {
+                Integer neighbor = graph.get(y).get(j);
+                if(levels.containsKey(neighbor) == false) {
+                    levels.put(neighbor, c);
+                }
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.add(neighbor);
+                }
             }
         }
-            System.out.println(y);
-        }
+        int res = 0;
+       for(int level: levels.keySet()){
+           if(levels.get(level) > ttl){
+               res++;
+           }
+       }
+        System.out.println(res);
     }
 
     public static void main(String []args) {
         System.out.println("Hello, World!");
-         HelloWorld g = new HelloWorld();
+        HelloWorld g = new HelloWorld();
         Scanner myObj = new Scanner(System.in);
         int num = myObj.nextInt();
-        for(int i =0; i < num; i++){
+        for(int i =0; i < num; i++) {
             int u = myObj.nextInt();
             int v = myObj.nextInt();
             g.addEdge(u,v);
         }
-        // HelloWorld g = new HelloWorld(5);
-      
-        g.BFS(35);
+
+        g.BFS(35,3);
     }
 }
